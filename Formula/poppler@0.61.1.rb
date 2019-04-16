@@ -6,12 +6,6 @@ class PopplerAT0611 < Formula
   url "https://poppler.freedesktop.org/poppler-0.61.1.tar.xz"
   sha256 "1266096343f5163c1a585124e9a6d44474e1345de5cdfe55dc7b47357bcfcda9"
 
-  bottle do
-    sha256 "19c1f79d20eb82931cf288cd66da19972537f3bb6862d31f05ee13fba69ad295" => :high_sierra
-    sha256 "a81f8e5c998238f2c399c4917eff6b14ef1fa708841ff5b21e0a868391071e4b" => :sierra
-    sha256 "1621eced6c3d6d11a1e04df49e0d1619a465f8922a47f307e21855ceb1e77159" => :el_capitan
-  end
-
   option "with-qt", "Build Qt5 backend"
   option "with-little-cms2", "Use color management system"
 
@@ -80,6 +74,9 @@ class PopplerAT0611 < Formula
       macho.change_dylib("@rpath/#{libpoppler}", "#{lib}/#{libpoppler}")
       macho.write!
     end
+
+    # install extra cairo headers
+    include.join("poppler").install "poppler/CairoFontEngine.h", "poppler/CairoOutputDev.h", "poppler/CairoRescaleBox.h"
   end
 
   test do
