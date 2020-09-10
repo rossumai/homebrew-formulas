@@ -8,3 +8,12 @@ brew tap rossumai/formulas
 brew install poppler@0.62.0
 brew link poppler@0.62.0
 ```
+
+## Development
+
+Create a new formula in `Formula/` directory.
+Test installation by:
+
+```
+brew install ./Formula/foo.rb
+```
