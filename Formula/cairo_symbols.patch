@@ -1,0 +1,29 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e359288..94aad8b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -283,6 +283,9 @@ endif()
+ if(LCMS2_FOUND)
+   include_directories(SYSTEM ${LCMS2_INCLUDE_DIR})
+ endif()
++if(CAIRO_FOUND)
++  include_directories(SYSTEM ${CAIRO_INCLUDE_DIRS})
++endif()
+ 
+ if(ENABLE_SPLASH)
+   find_package(Boost 1.58.0)
+@@ -427,6 +430,14 @@ if(ENABLE_SPLASH)
+     splash/SplashXPathScanner.cc
+   )
+ endif()
++if(CAIRO_FOUND)
++  set(poppler_SRCS ${poppler_SRCS}
++    poppler/CairoFontEngine.cc
++    poppler/CairoOutputDev.cc
++    poppler/CairoRescaleBox.cc
++  )
++  set(poppler_LIBS ${poppler_LIBS} ${CAIRO_LIBRARIES})
++endif()
+ if(FONTCONFIG_FOUND)
+   set(poppler_LIBS ${poppler_LIBS} ${FONTCONFIG_LIBRARIES})
+ endif()
