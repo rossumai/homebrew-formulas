@@ -5,8 +5,8 @@ needed by [pdfparser](https://github.com/rossumai/pdfparser).
 
 ```
 brew tap rossumai/formulas
-brew install poppler@0.62.0
-brew link poppler@0.62.0
+brew install poppler@21.07.0
+brew link poppler@21.07.0
 ```
 
 ## Development
