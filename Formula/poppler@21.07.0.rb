@@ -13,10 +13,10 @@ class PopplerAT21070 < Formula
   # Publish internal cairo symbols within libpoppler library.
   patch :p1, "
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e359288..94aad8b 100644
+index d1d3653a..f5886709 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -283,6 +283,9 @@ endif()
+@@ -324,6 +324,9 @@ endif()
  if(LCMS2_FOUND)
    include_directories(SYSTEM ${LCMS2_INCLUDE_DIR})
  endif()
@@ -24,12 +24,12 @@ index e359288..94aad8b 100644
 +  include_directories(SYSTEM ${CAIRO_INCLUDE_DIRS})
 +endif()
 
- if(ENABLE_SPLASH)
-   find_package(Boost 1.58.0)
-@@ -427,6 +430,14 @@ if(ENABLE_SPLASH)
-     splash/SplashXPathScanner.cc
-   )
- endif()
+ # Recent versions of poppler-data install a .pc file.
+ # Use it to determine the encoding data path, if available.
+@@ -458,6 +461,14 @@ set(poppler_SRCS
+   splash/SplashXPath.cc
+   splash/SplashXPathScanner.cc
+ )
 +if(CAIRO_FOUND)
 +  set(poppler_SRCS ${poppler_SRCS}
 +    poppler/CairoFontEngine.cc
@@ -38,9 +38,19 @@ index e359288..94aad8b 100644
 +  )
 +  set(poppler_LIBS ${poppler_LIBS} ${CAIRO_LIBRARIES})
 +endif()
+ set(poppler_LIBS ${FREETYPE_LIBRARIES})
  if(FONTCONFIG_FOUND)
    set(poppler_LIBS ${poppler_LIBS} ${FONTCONFIG_LIBRARIES})
- endif()
+@@ -774,6 +785,9 @@ if(PKG_CONFIG_EXECUTABLE)
+   if(ENABLE_GLIB)
+     poppler_create_install_pkgconfig(poppler-glib.pc ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+   endif()
++  if(CAIRO_FOUND)
++    poppler_create_install_pkgconfig(poppler-cairo.pc ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
++  endif()
+   if(ENABLE_CPP)
+     poppler_create_install_pkgconfig(poppler-cpp.pc ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+   endif()
 "
 
   livecheck do
